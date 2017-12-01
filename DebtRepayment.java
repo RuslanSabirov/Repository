@@ -23,22 +23,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 
-
-
-/**
- *
- * @author Руслан
- */
 public class DebtRepayment {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args)
     {
         Scanner sc = new Scanner(System.in);
         
-        String file = "C:\\Users\\Руслан\\Desktop\\Новая папка (2)\\file.xls";
+        String file = "";
         
         int countMount = 0;
         double amount = 0, interestRate = 0;
@@ -51,8 +42,8 @@ public class DebtRepayment {
             System.out.println("ставка = ");
             interestRate = sc.nextDouble();
             
-            /*System.out.println("путь к файлу : ");
-            file = sc.nextLine();*/
+            System.out.println("путь к файлу : ");
+            file = sc.nextLine();
         }catch(Exception ex){
             System.out.print("Ошибка ввода!");
             return;
@@ -60,12 +51,6 @@ public class DebtRepayment {
         
         AnnuityPayment annuityPayment = new AnnuityPayment(countMount, amount, interestRate);
         ArrayList<Shedule> shedule = annuityPayment.getShedule();
-        try{
-        
-        }
-        catch(ArithmeticException ex){
-            System.out.print("Ошибка ввода!");
-        }
         
         HSSFWorkbook book = new HSSFWorkbook();
         HSSFSheet sheet = book.createSheet("Employees sheet");
@@ -82,9 +67,7 @@ public class DebtRepayment {
             row.createCell(1).setCellValue(shedule.get(i).getMainDebt());
             row.createCell(2).setCellValue(shedule.get(i).getSurplusDebt());
         }
-        
-        
-        // Записываем всё в файл
+          
         try{
             book.write(new FileOutputStream(file));
             book.close();
@@ -95,14 +78,10 @@ public class DebtRepayment {
         catch(IOException ex){
             System.out.print("Ошибка доступа!!");
         }
-        catch(ArithmeticException ex){
-        
-        }
-         
     }
-    
-    
 }
+
+
 class AnnuityPayment{
     private int countMount;
     private double amount;
@@ -114,10 +93,6 @@ class AnnuityPayment{
         this.countMount = countMount;
         this.amount = amount;
         this.interestRate = interestRate;
-        
-        if(interestRate <= 0){
-        
-        }
         
         beginDate = new Date();
     }
@@ -154,15 +129,14 @@ class AnnuityPayment{
         
         return shedule;
     }
-    
 }
+
 
 class Shedule{
     private Date date;
     private double mainDebt;
     private double surplusDebt;
-    
-    
+        
     public Shedule(Date date, double mainDebt, double surplusDebt){
         this.date = date;
         this.mainDebt = mainDebt;
